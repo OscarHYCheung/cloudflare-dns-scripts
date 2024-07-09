@@ -8,19 +8,19 @@ if [ -z "$domainName" ]; then
 fi
 
 # Get the path to the script directory
-scrPath=$(dirname "$(realpath "$0")")
+srcPath=$(dirname "$(realpath "$0")")
 
 # Check if cloudflare.credentials.json exists
-cfCredentialsFile="${scrPath}/cloudflare.credentials.json"
+cfCredentialsFile="${srcPath}/cloudflare.credentials.json"
 if [ ! -f "$cfCredentialsFile" ]; then
   echo "${cfCredentialsFile} not found."
   exit 1
 fi
 
 # Get the DNS record ID from the JSON file
-recordId=$(jq -r '.result[0].id' "${cfCredentialsFile}/${domainName}.id.json")
+recordId=$(jq -r '.result[0].id' "${srcPath}/${domainName}.id.json")
 if [ "$recordId" == "null" ]; then
-  echo "DNS record ID not found in ${cfCredentialsFile}/${domainName}.id.json."
+  echo "DNS record ID not found in ${srcPath}/${domainName}.id.json."
   exit 1
 fi
 
@@ -33,7 +33,7 @@ if [ "$recordId" == "null" ] || [ "$zoneId" == "null" ] || [ "$apiToken" == "nul
 fi
 
 # Get last IP address stored
-ipFile="${scrPath}/${domainName}.ip.json"
+ipFile="${srcPath}/${domainName}.ip.json"
 if [ -f "$ipFile" ]; then
   lastIp=$(jq -r '.ip' "$ipFile")
 else

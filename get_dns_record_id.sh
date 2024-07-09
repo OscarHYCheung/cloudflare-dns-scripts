@@ -8,10 +8,10 @@ if [ -z "$domainName" ]; then
 fi
 
 # Get the path to the script directory
-scrPath=$(dirname "$(realpath "$0")")
+srcPath=$(dirname "$(realpath "$0")")
 
 # Check if cloudflare.credentials.json exists
-cfCredentialsFile="${scrPath}/cloudflare.credentials.json"
+cfCredentialsFile="${srcPath}/cloudflare.credentials.json"
 if [ ! -f "$cfCredentialsFile" ]; then
   echo "${cfCredentialsFile} not found."
   exit 1
