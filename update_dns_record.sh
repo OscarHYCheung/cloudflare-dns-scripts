@@ -45,7 +45,7 @@ fi
 
 # Get current IP address and compare with the last IP address
 currentIp=$(curl -s https://httpbin.org/ip | jq -r '.origin')
-if [$currentIp == $lastIp]; then
+if [ "$currentIp" == "$lastIp" ]; then
   echo "IP has not changed. No update needed."
   exit 0
 fi
