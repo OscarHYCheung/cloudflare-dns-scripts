@@ -7,9 +7,9 @@ if [ -z "$domainName" ]; then
   exit 1
 fi
 
-# Check if cloudflare.certificates.json exists
-if [ ! -f cloudflare.certificates.json ]; then
-  echo "cloudflare.certificates.json not found."
+# Check if cloudflare.credentials.json exists
+if [ ! -f cloudflare.credentials.json ]; then
+  echo "cloudflare.credentials.json not found."
   exit 1
 fi
 
@@ -20,11 +20,11 @@ if [ "$recordId" == "null" ]; then
   exit 1
 fi
 
-# Get the zoneId and apiToken from cloudflare.certificates.json
-zoneId=$(jq -r ".[\"$domainName\"].zoneId" cloudflare.certificates.json)
-apiToken=$(jq -r ".[\"$domainName\"].apiToken" cloudflare.certificates.json)
+# Get the zoneId and apiToken from cloudflare.credentials.json
+zoneId=$(jq -r ".[\"$domainName\"].zoneId" cloudflare.credentials.json)
+apiToken=$(jq -r ".[\"$domainName\"].apiToken" cloudflare.credentials.json)
 if [ "$recordId" == "null" ] || [ "$zoneId" == "null" ] || [ "$apiToken" == "null" ]; then
-  echo "Record ID, Zone ID, or API Token not found in cloudflare.certificates.json."
+  echo "Record ID, Zone ID, or API Token not found in cloudflare.credentials.json."
   exit 1
 fi
 
