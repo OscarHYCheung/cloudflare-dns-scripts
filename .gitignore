@@ -1,3 +1,9 @@
+# Cloudflare API credentials
+cloudflare.credentials.json
+
+# Intermediate tmp files
 *.ip.json
 *.id.json
-cloudflare.credentials.json
+
+# Logs
+*.log
