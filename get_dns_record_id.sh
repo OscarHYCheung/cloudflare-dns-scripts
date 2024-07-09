@@ -7,8 +7,15 @@ if [ -z "$domainName" ]; then
   exit 1
 fi
 
+# Check if CLOUDFLARE_CREDENTIALS environment variable is set, and set to use ./cloudflare.credentials.json if not
+if [ -z "$CLOUDFLARE_CREDENTIALS" ]; then
+  cloudflare_credentials_path="./cloudflare.credentials.json"
+else
+  cloudflare_credentials_path="$CLOUDFLARE_CREDENTIALS"
+fi
+
 # Check if cloudflare.credentials.json exists
-if [ ! -f cloudflare.credentials.json ]; then
+if [ ! -f "$cloudflare_credentials_path" ]; then
   echo "cloudflare.credentials.json not found."
   exit 1
 fi

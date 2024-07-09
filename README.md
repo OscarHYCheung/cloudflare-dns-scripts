@@ -48,10 +48,10 @@ Please ensure you run the `get_dns_record_id.sh <domainName>` script successfull
 
 ### Update Periodically
 
-You can use a cron job to update the A record periodically. For example, to update the A record every 5 minutes, add the following line to your crontab:
+You can use a cron job to update the A record periodically. For example, to update the A record every 5 minutes, add the following line to your crontab with the environment variable CLOUDFLARE_CREDENTIALS=</path/to/cloudflare.credentials.json>`:
 
 ```bash
-*/5 * * * * /path/to/update_dns_record.sh <domainName>
+*/5 * * * * CLOUDFLARE_CREDENTIALS=</path/to/cloudflare.credentials.json> /path/to/update_dns_record.sh <domainName>
 ```
 
 If the script is working as expected, it will only send requests to the Cloudflare API when the IP address has changed. So that it should be fine to run it even every minute.
