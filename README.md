@@ -41,7 +41,7 @@ The script will save the DNS record ID in a file named `<domainName>.id.json`, a
 To update the A record for the given domain to the current IP address, run the following command:
 
 ```bash
-./update-a-record.sh <domainName>
+./update_dns_record.sh <domainName>
 ```
 
 Please ensure you run the `get_dns_record_id.sh <domainName>` script successfully before, which will create the `<domainName>.id.json` file.
@@ -51,7 +51,7 @@ Please ensure you run the `get_dns_record_id.sh <domainName>` script successfull
 You can use a cron job to update the A record periodically. For example, to update the A record every 5 minutes, add the following line to your crontab:
 
 ```bash
-*/5 * * * * /path/to/update-a-record.sh <domainName>
+*/5 * * * * /path/to/update_dns_record.sh <domainName>
 ```
 
 If the script is working as expected, it will only send requests to the Cloudflare API when the IP address has changed. So that it should be fine to run it even every minute.
