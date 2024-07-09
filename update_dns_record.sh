@@ -7,36 +7,33 @@ if [ -z "$domainName" ]; then
   exit 1
 fi
 
-# Check if CLOUDFLARE_CREDENTIALS environment variable is set, and set to use ./cloudflare.credentials.json if not
-if [ -z "$CLOUDFLARE_CREDENTIALS" ]; then
-  cloudflare_credentials_path="./cloudflare.credentials.json"
-else
-  cloudflare_credentials_path="$CLOUDFLARE_CREDENTIALS"
-fi
+# Get the path to the script directory
+scrPath=$(dirname "$(realpath "$0")")
 
 # Check if cloudflare.credentials.json exists
-if [ ! -f "$cloudflare_credentials_path" ]; then
-  echo "cloudflare.credentials.json not found."
+cfCredentialsFile="${scrPath}/cloudflare.credentials.json"
+if [ ! -f "$cfCredentialsFile" ]; then
+  echo "${cfCredentialsFile} not found."
   exit 1
 fi
 
 # Get the DNS record ID from the JSON file
-recordId=$(jq -r '.result[0].id' "${domainName}.id.json")
+recordId=$(jq -r '.result[0].id' "${cfCredentialsFile}/${domainName}.id.json")
 if [ "$recordId" == "null" ]; then
-  echo "DNS record ID not found in ${domainName}.id.json."
+  echo "DNS record ID not found in ${cfCredentialsFile}/${domainName}.id.json."
   exit 1
 fi
 
 # Get the zoneId and apiToken from cloudflare.credentials.json
-zoneId=$(jq -r ".[\"$domainName\"].zoneId" cloudflare.credentials.json)
-apiToken=$(jq -r ".[\"$domainName\"].apiToken" cloudflare.credentials.json)
+zoneId=$(jq -r ".[\"$domainName\"].zoneId" ${cfCredentialsFile})
+apiToken=$(jq -r ".[\"$domainName\"].apiToken" ${cfCredentialsFile})
 if [ "$recordId" == "null" ] || [ "$zoneId" == "null" ] || [ "$apiToken" == "null" ]; then
-  echo "Record ID, Zone ID, or API Token not found in cloudflare.credentials.json."
+  echo "Record ID, Zone ID, or API Token not found in ${cfCredentialsFile}."
   exit 1
 fi
 
 # Get last IP address stored
-ipFile="${domainName}.ip.json"
+ipFile="${scrPath}/${domainName}.ip.json"
 if [ -f "$ipFile" ]; then
   lastIp=$(jq -r '.ip' "$ipFile")
 else
